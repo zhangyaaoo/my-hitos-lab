@@ -95,9 +95,31 @@ ok_load_setup:
 	xor	bh,bh			! 页号bh=0
 	int	0x10
 	
-	mov	cx,#73			! len of string
+	mov	cx,#27			! len of string
+	mov	bx,#0x0007		! page 0, attribute 7 (normal) 页号BH=0 属性BL=7正常显示
+	mov	bp,#msg1		! ES:BP要显示的字符串地址
+	mov	ax,#0x1301		! write string, move cursor AH=13显示字符串 AL=01光标跟随移动
+	int	0x10
+	
+	mov	ah,#0x03		! read cursor pos
+	xor	bh,bh			! 页号bh=0
+	int	0x10
+	
+	mov	cx,#4			! len of string
 	mov	bx,#0x0003		! page 0, attribute 7 (normal) 页号BH=0 属性BL=3彩色显示
 	mov	bp,#msg1		! ES:BP要显示的字符串地址
+	add	bp,#27
+	mov	ax,#0x1301		! write string, move cursor AH=13显示字符串 AL=01光标跟随移动
+	int	0x10
+
+	mov	ah,#0x03		! read cursor pos
+	xor	bh,bh			! 页号bh=0
+	int	0x10
+	
+	mov	bx,#0x0007		! page 0, attribute 7 (normal) 页号BH=0 属性BL=7正常显示
+	mov	cx,#42			! len of string
+	mov	bp,#msg1		! ES:BP要显示的字符串地址
+	add	bp,#31
 	mov	ax,#0x1301		! write string, move cursor AH=13显示字符串 AL=01光标跟随移动
 	int	0x10
 
